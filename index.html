@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>朱祖夏八字用神分析</title>
+</head>
+<body>
+  <h1>朱祖夏八字分析</h1>
+  <form id="form">
+    <input name="bazi" placeholder="输入八字，如：甲戌 乙亥 丙寅 甲午" style="width:300px"><br>
+    <label><input type="radio" name="gender" value="男" checked>男</label>
+    <label><input type="radio" name="gender" value="女">女</label><br>
+    <button type="submit">分析</button>
+  </form>
+  <pre id="result"></pre>
+  <script>
+    document.getElementById("form").onsubmit = async (e) => {
+      e.preventDefault();
+      const bazi = e.target.bazi.value;
+      const gender = e.target.gender.value;
+      const res = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bazi, gender })
+      });
+      const data = await res.json();
+      document.getElementById("result").textContent = data.result;
+    };
+  </script>
+</body>
+</html>
